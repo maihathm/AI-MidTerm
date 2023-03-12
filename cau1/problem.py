@@ -30,7 +30,9 @@ class SingleFoodSearchProblem:
                 for line in allmap:
                     arr = [x for x in line]
                     if '.' in arr:
-                        self.F.update({len(self.F)+1: (row, arr.index('.'))})
+                        for i in range(len(arr)):
+                            if arr[i]=='.':
+                                self.F.update({len(self.F): (row,i)})
                     if 'P' in arr:
                         self.P = (row, arr.index('P'))
                     temp_map.append(arr)
