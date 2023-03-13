@@ -1,85 +1,66 @@
-class Stack:
+class __List:
     def __init__(self) -> None:
-        self.__stk = []
-    
+        self._list = []
+
     def size(self) -> int:
-        return len(self.__stk)
-    
+        return len(self._list)
+
     def empty(self) -> bool:
-        return self.size() == 0
+        return len(self._list) == 0
+    
+    def contain(self, item) -> bool:
+        return item in self._list
+
+    def __str__(self) -> str:
+        return str(self._list)
+
+class Stack(__List):
+    def __init__(self) -> None:
+        super().__init__()
     
     def push(self, item):
-        self.__stk.append(item)
+        self._list.append(item)
     
     def pop(self):
-        if len(self.__stk) > 0:
-            return self.__stk.pop()
-        else:
-            return None
+        return self._list.pop()
     
     def peek(self):
-        if len(self.__stk) > 0:
-            return self.__stk[-1]
-        else:
-            return None
-    
-    def __str__(self) -> str:
-        return str(self.__stk)
+        return self._list[-1]
 
-class Queue:
+class Queue(__List):
     def __init__(self) -> None:
-        self.__qu = []
-    
-    def size(self) -> int:
-        return len(self.__qu)
-    
-    def empty(self) -> bool:
-        return self.size() == 0
+        super().__init__()
     
     def enQueue(self, item):
-        self.__qu.append(item)
+        self._list.append(item)
     
     def deQueue(self):
-        if len(self.__qu) > 0:
-            return self.__qu.pop(0)
-        else:
-            return None
+        return self._list.pop(0)
     
     def peek(self):
-        if len(self.__qu) > 0:
-            return self.__qu[0]
-        else:
-            return None
-    
-    def __str__(self) -> str:
-        return str(self.__qu)
+        return self._list[0]
 
-class PriorityQueue:
+class PriorityQueue(Queue):
     def __init__(self, key = None) -> None:
-        self.__heap = []
+        super().__init__()
         self.__key = key
     
-    def size(self) -> int:
-        return len(self.__heap)
-    
-    def empty(self) -> bool:
-        return self.size() == 0
-    
     def enQueue(self, item):
-        self.__heap.append(item)
-        self.__heap.sort(key = self.__key)
+        super().enQueue(item)
+        self._list.sort(key = self.__key)
+  
+    # use for tuple format (key, value)
+    ## [key0, key1,....]
+    def containInTuple(self, item) -> bool:
+        return item in [a for a, b in self._list]
     
-    def deQueue(self):
-        if len(self.__heap) > 0:
-            return self.__heap.pop(0)
-        else:
-            return None
+    def getPriority(self, key):
+        for a, b in self._list:
+            if a == key:
+                return b
+        raise KeyError("Cannot find with this key")
     
-    def peek(self):
-        if len(self.__heap) > 0:
-            return self.__heap[0]
-        else:
-            return None
-    
-    def __str__(self) -> str:
-        return str(self.__heap)
+    def updatePriority(self, key, value):
+        oldValue = self.getPriority(key)
+        self._list.remove((key, oldValue))
+        self.enQueue((key, value))
