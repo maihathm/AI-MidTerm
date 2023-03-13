@@ -70,7 +70,10 @@ class PriorityQueue:
         self.__heap.sort(key = self.__key)
     
     def deQueue(self):
-        self.__heap.pop(0)
+        if len(self.__heap) > 0:
+            return self.__heap.pop(0)
+        else:
+            return None
     
     def peek(self):
         if len(self.__heap) > 0:
