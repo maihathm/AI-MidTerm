@@ -1,6 +1,5 @@
 import os
 import numpy
-
 class SingleFoodSearchProblem:
     def __init__(self):
         self.matrix = list()
@@ -38,6 +37,40 @@ class SingleFoodSearchProblem:
                     temp_map.append(arr)
                     row += 1
                 self.matrix = numpy.array(temp_map)
-g = SingleFoodSearchProblem()
-g.load_from_file('sample_inputs/pacman_single01.txt')
-g.print()
+    def actions(self,state):
+        actions=[]
+        Map=self.matrix
+        row,col=state
+        if row < len(self.matrix) and col<len(self.matrix[row]):
+            if len(self.matrix[row])>col+1:
+                if self.matrix[row][col+1]!='%':
+                    actions.append('E')
+            if row-1>=0:
+                if self.matrix[row-1][col]!='%':
+                    actions.append('N')
+            if len(self.matrix)>row+1:
+                if self.matrix[row+1][col]!='%':
+                    actions.append('S')
+            if col-1>=0:
+                if self.matrix[row][col-1]!='%':
+                    actions.append('W')
+        # if self.matrix[row][col]=='.':
+        #     actions.append('Stop')
+        return actions
+    def result(self,state,action):
+        if action=="E":
+            new_state=(state[0],state[1]+1)
+        elif action=="W":
+            new_state=(state[0],state[1]-1)
+        elif action=="N":
+            new_state=(state[0]-1,state[1])
+        else:
+            new_state=(state[0]+1,state[1]+1)
+        return new_state
+    def path_cost(self,cost,state1,action,state2):
+        return cost+1
+    def goal_test(self, state):
+        return state in self.F.values()
+# g = SingleFoodSearchProblem()
+# g.load_from_file('sample_inputs/pacman_single01.txt')
+# g.print()
