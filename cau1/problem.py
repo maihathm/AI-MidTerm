@@ -16,7 +16,6 @@ class SingleFoodSearchProblem:
             temp += '\n'
             res += temp
         return res
-
     def print(self):
         print(str(self))
 
@@ -37,40 +36,62 @@ class SingleFoodSearchProblem:
                     temp_map.append(arr)
                     row += 1
                 self.matrix = numpy.array(temp_map)
-    def actions(self,state):
-        actions=[]
+    def getSuccessor(self,state):
+        successor=[]
         Map=self.matrix
         row,col=state
+        new_state=tuple()
         if row < len(self.matrix) and col<len(self.matrix[row]):
             if len(self.matrix[row])>col+1:
                 if self.matrix[row][col+1]!='%':
-                    actions.append('E')
+                    new_state=(row,col+1)
+                    successor.append((new_state,'E'))
             if row-1>=0:
                 if self.matrix[row-1][col]!='%':
-                    actions.append('N')
+                    new_state=(row-1, col)
+                    successor.append((new_state,'N'))
             if len(self.matrix)>row+1:
                 if self.matrix[row+1][col]!='%':
-                    actions.append('S')
+                    new_state=( row+1, col)
+                    successor.append((new_state,'S'))
             if col-1>=0:
                 if self.matrix[row][col-1]!='%':
-                    actions.append('W')
+                    new_state=(row, col-1)
+                    successor.append((new_state,"W"))
         # if self.matrix[row][col]=='.':
         #     actions.append('Stop')
-        return actions
-    def result(self,state,action):
-        if action=="E":
-            new_state=(state[0],state[1]+1)
-        elif action=="W":
-            new_state=(state[0],state[1]-1)
-        elif action=="N":
-            new_state=(state[0]-1,state[1])
-        else:
-            new_state=(state[0]+1,state[1]+1)
-        return new_state
+        return successor
     def path_cost(self,cost,state1,action,state2):
         return cost+1
     def goal_test(self, state):
         return state in self.F.values()
+    def animate(self,actions:list)->None:
+        matrix=self.matrix
+        current=self.P 
+        while(len(actions)>=0):
+            row,col=current
+            if len(actions)==0:
+                self.matrix[row][col]=' '
+                r,c=self.P
+                self.matrix[r][c]='P'
+                break
+            os.system('clear')
+            self.print()
+            input("Press Enter to continue...")
+            action=actions.pop(0)
+            self.matrix[row][col]=' '
+            if action=='E':
+                matrix[row][col+1]='P'
+                current=(row,col+1)
+            elif action=='N':
+                matrix[row-1][col]='P'
+                current=(row-1, col)
+            elif action=='S':
+                matrix[row+1][col]='P'
+                current=(row+1, col)
+            else:
+                matrix[row][col-1]='P'
+                current=(row, col-1)
 # g = SingleFoodSearchProblem()
 # g.load_from_file('sample_inputs/pacman_single01.txt')
 # g.print()
