@@ -1,6 +1,7 @@
 import os
 import numpy
 import random
+from copy import *
 
 class EightQueenProblem:
     def __init__(self):
@@ -24,14 +25,37 @@ class EightQueenProblem:
             res += temp
         return res
 
-    def h(self):
-        q_list = [self.Q[i] for i in range(len(self.Q))]
+    def count(self,matrix_new):
+        q_list = [matrix_new[i] for i in range(len(matrix_new))]
         s= 0
         for i in q_list:
             for j in q_list:
                 if ((i[0] - j[0]) == (i[1]- j[1]) and (i[0] - j[0] !=0) and (i[1] - j[1] !=0)) or ((i[0] - j[0]) == -(i[1] - j[1]) and (i[0] - j[0] !=0) and (i[1] - j[1] !=0)) or (i[0] == j[0] and i[1] != j[1]) or (i[0] != j[0] and i[1] == j[1]):
                     s+=1
-        print(int(s/2))         
+        return (int(s/2)) 
+        
+    def h(self,state):
+        c=0
+        matrix_new = dict()
+        matrix_copy=deepcopy(self.matrix)
+        col=state[0]
+        row=state[1]
+        if matrix_copy[col,row]=="0":
+            for i in range(len(matrix_copy)):
+                if matrix_copy[i,row]=="Q":
+                    matrix_copy[i,row]="0"
+                    matrix_copy[col,row]="Q"
+        # print(str(matrix_copy))
+        for i in range(len(matrix_copy)):
+            for j in range(len(matrix_copy)):
+                if(matrix_copy[i][j]=='Q'):
+                    matrix_new.update({len(matrix_new): (i,j)})
+        for i in range(len(matrix_copy)):
+            for j in range(len(matrix_copy[i])):
+                if matrix_copy[i][j]=="Q":
+                    state=[i,j]
+                    c=self.count(matrix_new)  
+        print(c)      
 
     def print(self):
         print(str(self))
@@ -129,6 +153,6 @@ class EightQueenProblem:
 g = EightQueenProblem()
 g.load_from_file('sample_inputs/eight_queens03.txt')
 g.print()
-g.h()
+g.h([0,7])
 g.__newinit__()
 g.print_board()
