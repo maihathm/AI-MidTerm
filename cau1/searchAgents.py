@@ -38,7 +38,8 @@ class searchAgents(SingleFoodSearchProblem):
         #TODO
         return actions
 SFSP=SingleFoodSearchProblem()
-SFSP.load_from_file('sample_inputs/pacman_single02.txt')
+SFSP.load_from_file('sample_inputs/pacman_single01.txt')
 searcher=searchAgents()
-path=searcher.DFS(SFSP)
-SFSP.animate(path)
+path=searcher.BFS(SFSP)
+print(path)
+# SFSP.animate(path)
