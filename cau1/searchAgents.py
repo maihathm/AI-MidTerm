@@ -2,6 +2,20 @@ import fringes
 from problems import SingleFoodSearchProblem,MultiFoodSearchProblem
 import copy
 class searchAgents:
+    def EuclideanHeuristic(state,goal_state:dict):
+        row_s,col_s=[int(i) for i in state]
+        heuristic=goal_state.copy()
+        for i in goal_state:
+            row_g,col_g=[int(j) for j in goal_state[i]]
+            heuristic[i]=((row_g-row_s)**2+(col_g-col_s)**2)**0.5
+        return heuristic
+    def ManhattanHeuristic(state,goal_state:dict):
+        row_s,col_s=[int(i) for i in state]
+        heuristic=goal_state.copy()
+        for i in goal_state:
+            row_g,col_g=[int(j) for j in goal_state[i]]
+            heuristic[i]=abs(row_g-row_s)+abs(col_g-col_s)
+        return heuristic
     def BFS(self,g:SingleFoodSearchProblem or MultiFoodSearchProblem) -> list:
         m=copy.deepcopy(g)
         pacman_state=m.P
