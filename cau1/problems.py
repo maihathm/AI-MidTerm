@@ -32,7 +32,7 @@ class SingleFoodSearchProblem:
                     temp_map.append(arr)
                     row += 1
                 self.matrix = numpy.array(temp_map)
-    def getSuccessor(self,state):
+    def get_successor(self,state):
         successor=[]
         row,col=state
         new_state=tuple()

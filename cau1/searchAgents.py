@@ -20,7 +20,7 @@ class searchAgents:
                         queue.clear()
                         queue.enQueue((state,path))
                         break
-            for new_state, action in m.getSuccessor(state):
+            for new_state, action in m.get_successor(state):
                 if new_state not in visited:
                     visited.append(new_state)
                     queue.enQueue((new_state,path+[action]))
@@ -43,7 +43,7 @@ class searchAgents:
                         stack.clear()
                         stack.push((state,path))
                         break
-            for new_state, action in m.getSuccessor(state):
+            for new_state, action in m.get_successor(state):
                 if new_state not in visited:
                     visited.append(new_state)
                     stack.push((new_state,path+[action]))
@@ -66,7 +66,7 @@ class searchAgents:
                         PriorityQueue.clear()
                         PriorityQueue.enQueue((state,path,m.path_cost(cost)))
                         break
-            for new_state, action in m.getSuccessor(state):
+            for new_state, action in m.get_successor(state):
                 if new_state not in visited:
                     visited.append(new_state)
                     newpath=path+[action]
