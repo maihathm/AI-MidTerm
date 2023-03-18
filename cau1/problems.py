@@ -53,8 +53,6 @@ class SingleFoodSearchProblem:
                 if self.matrix[row][col+1]!='%':
                     new_state=(row,col+1)
                     successor.append((new_state,'E'))
-        # if self.matrix[row][col]=='.':
-        #     actions.append('Stop')
         return successor
     def path_cost(self,cost):
         return cost+1
