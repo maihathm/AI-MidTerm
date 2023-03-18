@@ -1,21 +1,3 @@
-import os
-import numpy
-class SingleFoodSearchProblem:
-    def __init__(self):
-        self.matrix = list()
-        self.P = tuple()
-        self.F = dict()
-    def __str__(self):
-        res = ''
-        for x in self.matrix:
-            temp = ''
-            for y in x:
-                temp += y
-            temp += '\n'
-            res += temp
-        return res
-    def print(self):
-        print(str(self))
 
     def load_from_file(self, filename):
         if os.path.exists(filename):
@@ -36,18 +18,25 @@ class SingleFoodSearchProblem:
         successor=[]
         row,col=state
         new_state=tuple()
-        if self.matrix[row-1][col]!='%':
-            new_state=(row-1, col)
-            successor.append((new_state,'N'))
-        if self.matrix[row+1][col]!='%':
-            new_state=( row+1, col)
-            successor.append((new_state,'S'))
-        if self.matrix[row][col-1]!='%':
-            new_state=(row, col-1)
-            successor.append((new_state,"W"))
-        if self.matrix[row][col+1]!='%':
-            new_state=(row,col+1)
-            successor.append((new_state,'E'))
+        if row < len(self.matrix) and col<len(self.matrix[row]):
+            if row-1>=0:
+                if self.matrix[row-1][col]!='%':
+                    new_state=(row-1, col)
+                    successor.append((new_state,'N'))
+            if len(self.matrix)>row+1:
+                if self.matrix[row+1][col]!='%':
+                    new_state=( row+1, col)
+                    successor.append((new_state,'S'))
+            if col-1>=0:
+                if self.matrix[row][col-1]!='%':
+                    new_state=(row, col-1)
+                    successor.append((new_state,"W"))
+            if len(self.matrix[row])>col+1:
+                if self.matrix[row][col+1]!='%':
+                    new_state=(row,col+1)
+                    successor.append((new_state,'E'))
+        # if self.matrix[row][col]=='.':
+        #     actions.append('Stop')
         return successor
     def path_cost(self,cost):
         return cost+1
