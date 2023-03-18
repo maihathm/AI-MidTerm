@@ -48,23 +48,6 @@ class SingleFoodSearchProblem:
         if self.matrix[row][col+1]!='%':
             new_state=(row,col+1)
             successor.append((new_state,'E'))
-        if row < len(self.matrix) and col<len(self.matrix[row]):
-            if row-1>=0:
-                if self.matrix[row-1][col]!='%':
-                    new_state=(row-1, col)
-                    successor.append((new_state,'N'))
-            if len(self.matrix)>row+1:
-                if self.matrix[row+1][col]!='%':
-                    new_state=( row+1, col)
-                    successor.append((new_state,'S'))
-            if col-1>=0:
-                if self.matrix[row][col-1]!='%':
-                    new_state=(row, col-1)
-                    successor.append((new_state,"W"))
-            if len(self.matrix[row])>col+1:
-                if self.matrix[row][col+1]!='%':
-                    new_state=(row,col+1)
-                    successor.append((new_state,'E'))
         return successor
     def path_cost(self,cost):
         return cost+1
