@@ -5,7 +5,6 @@ class SingleFoodSearchProblem:
         self.matrix = list()
         self.P = tuple()
         self.F = dict()
-
     def __str__(self):
         res = ''
         for x in self.matrix:
@@ -27,9 +26,7 @@ class SingleFoodSearchProblem:
                 for line in allmap:
                     arr = [x for x in line]
                     if '.' in arr:
-                        for i in range(len(arr)):
-                            if arr[i]=='.':
-                                self.F.update({len(self.F): (row,i)})
+                        self.F.update({len(self.F): (row,arr.index('.'))})
                     if 'P' in arr:
                         self.P = (row, arr.index('P'))
                     temp_map.append(arr)
@@ -37,7 +34,6 @@ class SingleFoodSearchProblem:
                 self.matrix = numpy.array(temp_map)
     def getSuccessor(self,state):
         successor=[]
-        Map=self.matrix
         row,col=state
         new_state=tuple()
         if row < len(self.matrix) and col<len(self.matrix[row]):
@@ -60,11 +56,12 @@ class SingleFoodSearchProblem:
         # if self.matrix[row][col]=='.':
         #     actions.append('Stop')
         return successor
-    def path_cost(self,cost,state1,action,state2):
+    def path_cost(self,cost):
         return cost+1
     def goal_test(self, state):
         return state in self.F.values()
     def animate(self,actions:list)->None:
+        temp=self.matrix.copy()
         matrix=self.matrix
         current=self.P 
         os.system('cls')
@@ -88,12 +85,30 @@ class SingleFoodSearchProblem:
             elif action=='S':
                 matrix[row+1][col]='P'
                 current=(row+1, col)
-            else:
+            elif action=='W':
                 matrix[row][col-1]='P'
                 current=(row, col-1)
+            else:
+                break
             os.system('cls')
             self.print()
             input("Press Enter to continue...")
-# g = SingleFoodSearchProblem()
-# g.load_from_file('sample_inputs/pacman_single01.txt')
-# g.print()
+        self.matrix=temp
+class MultiFoodSearchProblem(SingleFoodSearchProblem):
+    def load_from_file(self, filename):
+        if os.path.exists(filename):
+            with open(filename) as g:
+                temp_map = []
+                allmap = g.read().split('\n')
+                row = 0
+                for line in allmap:
+                    arr = [x for x in line]
+                    if '.' in arr:
+                        for i in range(len(arr)):
+                            if arr[i]=='.':
+                                self.F.update({len(self.F): (row,i)})
+                    if 'P' in arr:
+                        self.P = (row, arr.index('P'))
+                    temp_map.append(arr)
+                    row += 1
+                self.matrix = numpy.array(temp_map)
