@@ -2,7 +2,7 @@ import fringes
 from problems import SingleFoodSearchProblem,MultiFoodSearchProblem
 import copy
 class searchAgents:
-    def BFS(self, g:SingleFoodSearchProblem or MultiFoodSearchProblem) -> list:
+    def BFS(self,g:SingleFoodSearchProblem or MultiFoodSearchProblem) -> list:
         m=copy.deepcopy(g)
         pacman_state=m.P
         queue=fringes.Queue()
@@ -24,8 +24,9 @@ class searchAgents:
                 if new_state not in visited:
                     visited.append(new_state)
                     queue.enQueue((new_state,path+[action]))
+            print(queue.size())
         return path
-    def DFS(self, g:SingleFoodSearchProblem or MultiFoodSearchProblem) -> list:
+    def DFS(self,g:SingleFoodSearchProblem or MultiFoodSearchProblem) -> list:
         m=copy.deepcopy(g)
         pacman_state=m.P
         stack=fringes.Stack()
@@ -48,7 +49,7 @@ class searchAgents:
                     visited.append(new_state)
                     stack.push((new_state,path+[action]))
         return path
-    def UCS(self, g:SingleFoodSearchProblem or MultiFoodSearchProblem) -> list:
+    def UCS(self,g:SingleFoodSearchProblem or MultiFoodSearchProblem) -> list:
         m=copy.deepcopy(g)
         pacman_state=m.P
         PriorityQueue=fringes.PriorityQueue(key=lambda x:x[2])
@@ -72,40 +73,48 @@ class searchAgents:
                     newpath=path+[action]
                     PriorityQueue.enQueue((new_state,newpath,m.path_cost(cost)))
         return path
+SFSP=SingleFoodSearchProblem()
 MFSP=MultiFoodSearchProblem()
+searcher=searchAgents()
+def algorithm(problems:SingleFoodSearchProblem or MultiFoodSearchProblem):
+    while True:
+        number=input("algorithm:\n1.BFS\t2.DFS\t3.UCS\n")
+        number=int(number)
+        if number==1:
+            path=searcher.BFS(problems)
+        elif number==2:
+            path=searcher.DFS(problems)
+        elif number==3:
+            path=searcher.UCS(problems)
+        else:
+            break
+        problems.animate(path)
 while True:
     number=input("Testcase:\n1.Single01\t2.Single02\t3.Single03\t4.Multi01\t5.Multi02\t6.Multi03\n")
     number=int(number)
     if number==1:
-        MFSP.load_from_file('sample_inputs/pacman_single01.txt')
+        SFSP.load_from_file('sample_inputs/pacman_single01.txt')
+        algorithm(SFSP)
         break
     elif number==2:
-        MFSP.load_from_file('sample_inputs/pacman_single02.txt')
+        SFSP.load_from_file('sample_inputs/pacman_single02.txt')
+        algorithm(SFSP)
         break
     elif number==3:
-        MFSP.load_from_file('sample_inputs/pacman_single03.txt')
+        SFSP.load_from_file('sample_inputs/pacman_single03.txt')
+        algorithm(SFSP)
         break
     elif number==4:
         MFSP.load_from_file('sample_inputs/pacman_multi01.txt')
+        algorithm(MFSP)
         break
     elif number==5:
         MFSP.load_from_file('sample_inputs/pacman_multi02.txt')
+        algorithm(MFSP)
         break
     elif number==6:
         MFSP.load_from_file('sample_inputs/pacman_multi03.txt')
+        algorithm(MFSP)
         break
     else:
         continue
-searcher=searchAgents()
-while True:
-    number=input("algorithm:\n1.BFS\t2.DFS\t3.UCS\n")
-    number=int(number)
-    if number==1:
-        path=searcher.BFS(MFSP)
-    elif number==2:
-        path=searcher.DFS(MFSP)
-    elif number==3:
-        path=searcher.UCS(MFSP)
-    else:
-        break
-    MFSP.animate(path)
