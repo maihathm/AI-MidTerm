@@ -8,7 +8,7 @@ def bfs(problem: SingleFoodSearchProblem or MultiFoodSearchProblem) -> list:
     pacman_state = m.P
     queue = Queue()
     queue.en_queue((pacman_state, []))
-    visited = [pacman_state]
+    visited = []
     while not queue.empty():
         state, path = queue.de_queue()
         if m.goal_test(state):
@@ -34,7 +34,7 @@ def dfs(problem: SingleFoodSearchProblem or MultiFoodSearchProblem) -> list:
     pacman_state = m.P
     stack = Stack()
     stack.push((pacman_state, []))
-    visited = [pacman_state]
+    visited = []
     while (stack.empty() != True):
         state, path = stack.pop()
         if m.goal_test(state):
@@ -73,11 +73,12 @@ def ucs(problem: SingleFoodSearchProblem or MultiFoodSearchProblem) -> list:
                     priority_queue.clear()
                     priority_queue.en_queue((state, path, m.path_cost(cost)))
                     break
-        visited.append(state)
-        for new_state, action in m.get_successor(state):
-            if new_state not in visited:
-                new_path = path+[action]
-                priority_queue.en_queue((new_state, new_path, m.path_cost(cost)))
+        else:
+            for new_state, action in m.get_successor(state):
+                if new_state not in visited:
+                    new_path = path+[action]
+                    visited.append(new_state)
+                    priority_queue.en_queue((new_state, new_path, m.path_cost(cost)))
     return []
 
 
@@ -106,7 +107,7 @@ def astar(problem: SingleFoodSearchProblem or MultiFoodSearchProblem, fn_heurist
     priority_queue.en_queue((pacman_state, [], 0))
     visited = []
     while (priority_queue.empty() != True):
-        state, path, cost = priority_queue.de_queue()
+        state, path,weight, cost = priority_queue.de_queue()
         heuristic = fn_heuristic(state, m.F)
         if m.goal_test(state) == True:
             if len(m.F) <= 1:
@@ -116,14 +117,16 @@ def astar(problem: SingleFoodSearchProblem or MultiFoodSearchProblem, fn_heurist
                     m.F.pop(i)
                     visited.clear()
                     priority_queue.clear()
-                    priority_queue.en_queue((state, path, m.path_cost(cost)+heuristic))
+                    priority_queue.en_queue((state, path,cost+heuristic,cost))
                     break
-        visited.append(state)
-        for new_state, action in m.get_successor(state):
-            heuristic = fn_heuristic(new_state, m.F)
-            if new_state not in visited:
-                new_path = path+[action]
-                priority_queue.en_queue((new_state, new_path, m.path_cost(cost)+heuristic))
+        else:
+            for new_state, action in m.get_successor(state):
+                heuristic = fn_heuristic(new_state, m.F)
+                if new_state not in visited:
+                    visited.append(new_state)
+                    new_path = path+[action]
+                    cost = m.path_cost(cost)
+                    priority_queue.en_queue((new_state, new_path,cost+heuristic,cost))
     return []
 
 
@@ -146,11 +149,12 @@ def gbfs(problem: SingleFoodSearchProblem or MultiFoodSearchProblem, fn_heuristi
                     priority_queue.clear()
                     priority_queue.en_queue((state, path, cost+heuristic, cost))
                     break
-        visited.append(state)
-        for new_state, action in m.get_successor(state):
-            heuristic = fn_heuristic(new_state, m.F)
-            if new_state not in visited:
-                newpath = path+[action]
-                cost = m.path_cost(cost)
-                priority_queue.en_queue((new_state, newpath, cost+heuristic, cost))
+        else:
+            for new_state, action in m.get_successor(state):
+                heuristic = fn_heuristic(new_state, m.F)
+                if new_state not in visited:
+                    visited.append(new_state)
+                    newpath = path+[action]
+                    cost = m.path_cost(cost)
+                    priority_queue.en_queue((new_state, newpath, cost+heuristic, cost))
     return []
