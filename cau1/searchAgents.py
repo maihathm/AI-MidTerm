@@ -34,10 +34,11 @@ class searchAgents:
                         queue.clear()
                         queue.enQueue((state,path))
                         break
-            for new_state, action in m.get_successor(state):
-                if new_state not in visited:
-                    visited.append(new_state)
-                    queue.enQueue((new_state,path+[action]))
+            else:
+                for new_state, action in m.get_successor(state):
+                    if new_state not in visited:
+                        visited.append(new_state)
+                        queue.enQueue((new_state,path+[action]))
             print(queue.size())
         return []
     def DFS(self,g:SingleFoodSearchProblem or MultiFoodSearchProblem) -> list:
@@ -58,10 +59,11 @@ class searchAgents:
                         stack.clear()
                         stack.push((state,path))
                         break
-            for new_state, action in m.get_successor(state):
-                if new_state not in visited:
-                    visited.append(new_state)
-                    stack.push((new_state,path+[action]))
+            else:
+                for new_state, action in m.get_successor(state):
+                    if new_state not in visited:
+                        visited.append(new_state)
+                        stack.push((new_state,path+[action]))
         return []
     def UCS(self,g:SingleFoodSearchProblem or MultiFoodSearchProblem) -> list:
         m=copy.deepcopy(g)
@@ -81,11 +83,12 @@ class searchAgents:
                         PriorityQueue.clear()
                         PriorityQueue.enQueue((state,path,m.path_cost(cost)))
                         break
-            for new_state, action in m.get_successor(state):
-                if new_state not in visited:
-                    visited.append(new_state)
-                    newpath=path+[action]
-                    PriorityQueue.enQueue((new_state,newpath,m.path_cost(cost)))
+            else:
+                for new_state, action in m.get_successor(state):
+                    if new_state not in visited:
+                        visited.append(new_state)
+                        newpath=path+[action]
+                        PriorityQueue.enQueue((new_state,newpath,m.path_cost(cost)))
         return []
     def astar(self,g:SingleFoodSearchProblem or MultiFoodSearchProblem) -> list:
         m=copy.deepcopy(g)
@@ -106,12 +109,13 @@ class searchAgents:
                         PriorityQueue.clear()
                         PriorityQueue.enQueue((state,path,m.path_cost(cost)+heuristic))
                         break
-            for new_state, action in m.get_successor(state):
-                heuristic=self.EuclideanHeuristic(new_state,m.F)
-                if new_state not in visited:
-                    visited.append(new_state)
-                    newpath=path+[action]
-                    PriorityQueue.enQueue((new_state,newpath,m.path_cost(cost)+heuristic))
+            else:
+                for new_state, action in m.get_successor(state):
+                    heuristic=self.EuclideanHeuristic(new_state,m.F)
+                    if new_state not in visited:
+                        visited.append(new_state)
+                        newpath=path+[action]
+                        PriorityQueue.enQueue((new_state,newpath,m.path_cost(cost)+heuristic))
         return []
     def gbfs(self,g:SingleFoodSearchProblem or MultiFoodSearchProblem) -> list:
         m=copy.deepcopy(g)
@@ -132,17 +136,21 @@ class searchAgents:
                         PriorityQueue.clear()
                         PriorityQueue.enQueue((state,path,cost+heuristic,cost))
                         break
-            for new_state, action in m.get_successor(state):
-                heuristic=self.EuclideanHeuristic(new_state,m.F)
-                if new_state not in visited:
-                    visited.append(new_state)
-                    newpath=path+[action]
-                    cost=m.path_cost(cost)
-                    PriorityQueue.enQueue((new_state,newpath,cost+heuristic,cost))
+            else:
+                for new_state, action in m.get_successor(state):
+                    heuristic=self.EuclideanHeuristic(new_state,m.F)
+                    if new_state not in visited:
+                        visited.append(new_state)
+                        newpath=path+[action]
+                        cost=m.path_cost(cost)
+                        PriorityQueue.enQueue((new_state,newpath,cost+heuristic,cost))
         return []
 SFSP=SingleFoodSearchProblem()
 MFSP=MultiFoodSearchProblem()
 searcher=searchAgents()
+
+
+
 def algorithm(problems:SingleFoodSearchProblem or MultiFoodSearchProblem):
     while True:
         number=input("algorithm:\n1.BFS\t2.DFS\t3.UCS\t4.AStar\t5.GBFS\n")
