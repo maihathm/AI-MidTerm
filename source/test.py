@@ -100,5 +100,5 @@ def algorithm3(problem):
 
 
 
-#cau1_2()
+cau1_2()
 #cau3()

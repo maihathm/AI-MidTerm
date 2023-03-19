@@ -97,14 +97,14 @@ def Manhattan_heuristic(state, goal_state: dict):
     for i in goal_state:
         row_g, col_g = [int(j) for j in goal_state[i]]
         heuristic[i] = abs(row_g-row_s)+abs(col_g-col_s)
-    return heuristic
+    return min(heuristic.values())
 
 
 def astar(problem: SingleFoodSearchProblem or MultiFoodSearchProblem, fn_heuristic) -> list:
     m = deepcopy(problem)
     pacman_state = m.P
     priority_queue = PriorityQueue(key=lambda x: x[2])
-    priority_queue.en_queue((pacman_state, [], 0))
+    priority_queue.en_queue((pacman_state, [], 0,0))
     visited = []
     while (priority_queue.empty() != True):
         state, path,weight, cost = priority_queue.de_queue()
