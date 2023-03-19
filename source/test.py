@@ -10,23 +10,23 @@ def cau1_2():
             problem = SingleFoodSearchProblem()
             problem.load_from_file("sample_inputs/pacman_single01.txt")
             algorithm1_2(problem)
-        if number == 2:
+        elif number == 2:
             problem = SingleFoodSearchProblem()
             problem.load_from_file("sample_inputs/pacman_single02.txt")
             algorithm1_2(problem)
-        if number == 3:
+        elif number == 3:
             problem = SingleFoodSearchProblem()
             problem.load_from_file("sample_inputs/pacman_single03.txt")
             algorithm1_2(problem)
-        if number == 4:
+        elif number == 4:
             problem = MultiFoodSearchProblem()
             problem.load_from_file("sample_inputs/pacman_multi01.txt")
             algorithm1_2(problem)
-        if number == 5:
+        elif number == 5:
             problem = MultiFoodSearchProblem()
             problem.load_from_file("sample_inputs/pacman_multi02.txt")
             algorithm1_2(problem)
-        if number == 6:
+        elif number == 6:
             problem = MultiFoodSearchProblem()
             problem.load_from_file("sample_inputs/pacman_multi03.txt")
             algorithm1_2(problem)
@@ -40,29 +40,29 @@ def algorithm1_2(problem: SingleFoodSearchProblem or MultiFoodSearchProblem):
             input("Algorithm:\n1.BFS\t2.DFS\t3.UCS\t4.AStar\t5.GBFS\n"))
         if number == 1:
             path = bfs(problem)
-            problem.animate(path)
+            print(path)
         elif number == 2:
             path = dfs(problem)
-            problem.animate(path)
+            print(path)
         elif number == 3:
             path = ucs(problem)
-            problem.animate(path)
+            print(path)
         elif number == 4:
             heuristic = choose_heuristic()
             if heuristic == 1:
                 path = astar(problem, Euclidean_heuristic)
-                problem.animate(path)
+                print(path)
             elif heuristic == 2:
                 path = astar(problem, Manhattan_heuristic)
-                problem.animate(path)
+                print(path)
         elif number == 5:
             heuristic = choose_heuristic()
             if heuristic == 1:
                 path = gbfs(problem, Euclidean_heuristic)
-                problem.animate(path)
+                print(path)
             elif heuristic == 2:
                 path = gbfs(problem, Manhattan_heuristic)
-                problem.animate(path)
+                print(path)
         else:
             break
 
@@ -81,11 +81,11 @@ def cau3():
             problem = EightQueenProblem()
             problem.load_from_file("sample_inputs/eight_queens01.txt")
             algorithm3(problem)
-        if number == 2:
+        elif number == 2:
             problem = EightQueenProblem()
             problem.load_from_file("sample_inputs/eight_queens02.txt")
             algorithm3(problem)
-        if number == 3:
+        elif number == 3:
             problem = EightQueenProblem()
             problem.load_from_file("sample_inputs/eight_queens03.txt")
             algorithm3(problem)
@@ -100,5 +100,5 @@ def algorithm3(problem):
 
 
 
-cau1_2()
+# cau1_2()
 #cau3()
