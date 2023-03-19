@@ -24,17 +24,17 @@ class searchAgents:
         visited=[]
         while not queue.empty():
             state,path=queue.deQueue()
-            if m.goal_test(state):
-                if len(m.F)<=1:
-                    return path+['Stop']
-                for i in m.F.copy():
-                    if m.F[i]==state:
-                        m.F.pop(i)
-                        visited.clear()
-                        queue.clear()
-                        queue.enQueue((state,path))
-                        break
             for new_state, action in m.get_successor(state):
+                if m.goal_test(new_state):
+                    if len(m.F)<=1:
+                        return path+[action,'Stop']
+                    for i in m.F.copy():
+                        if m.F[i]==state:
+                            m.F.pop(i)
+                            visited.clear()
+                            queue.clear()
+                            queue.enQueue((new_state,path+[action]))
+                            break
                 if new_state not in visited:
                     visited.append(new_state)
                     queue.enQueue((new_state,path+[action]))
@@ -48,17 +48,17 @@ class searchAgents:
         visited=[]
         while(stack.empty()!=True):
             state,path=stack.pop()
-            if m.goal_test(state)==True:
-                if len(m.F)<=1:
-                    return path+['Stop']
-                for i in m.F.copy():
-                    if m.F[i]==state:
-                        m.F.pop(i)
-                        visited.clear()
-                        stack.clear()
-                        stack.push((state,path))
-                        break
             for new_state, action in m.get_successor(state):
+                if m.goal_test(new_state):
+                    if len(m.F)<=1:
+                        return path+[action,'Stop']
+                    for i in m.F.copy():
+                        if m.F[i]==state:
+                            m.F.pop(i)
+                            visited.clear()
+                            stack.clear()
+                            stack.push((new_state,path+[action]))
+                            break
                 if new_state not in visited:
                     visited.append(new_state)
                     stack.push((new_state,path+[action]))
