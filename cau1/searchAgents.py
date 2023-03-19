@@ -34,11 +34,10 @@ class searchAgents:
                         queue.clear()
                         queue.enQueue((state,path))
                         break
-            else:
-                for new_state, action in m.get_successor(state):
-                    if new_state not in visited:
-                        visited.append(new_state)
-                        queue.enQueue((new_state,path+[action]))
+            for new_state, action in m.get_successor(state):
+                if new_state not in visited:
+                    visited.append(new_state)
+                    queue.enQueue((new_state,path+[action]))
             print(queue.size())
         return []
     def DFS(self,g:SingleFoodSearchProblem or MultiFoodSearchProblem) -> list:
@@ -59,11 +58,10 @@ class searchAgents:
                         stack.clear()
                         stack.push((state,path))
                         break
-            else:
-                for new_state, action in m.get_successor(state):
-                    if new_state not in visited:
-                        visited.append(new_state)
-                        stack.push((new_state,path+[action]))
+            for new_state, action in m.get_successor(state):
+                if new_state not in visited:
+                    visited.append(new_state)
+                    stack.push((new_state,path+[action]))
         return []
     def UCS(self,g:SingleFoodSearchProblem or MultiFoodSearchProblem) -> list:
         m=copy.deepcopy(g)
